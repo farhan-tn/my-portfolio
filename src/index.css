@@ -1,0 +1,194 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --bg: #0a0a0a;
+  --surface: #111111;
+  --surface-2: #1a1a1a;
+  --border: #262626;
+  --muted: #737373;
+  --text: #f5f5f5;
+  --soft: #e5e5e5;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  overflow-x: hidden;
+  background-image:
+    radial-gradient(1200px 600px at 80% -10%, rgba(255, 255, 255, 0.04), transparent 60%),
+    radial-gradient(900px 500px at 0% 100%, rgba(255, 255, 255, 0.03), transparent 60%);
+  background-attachment: fixed;
+}
+
+::selection {
+  background: #f5f5f5;
+  color: #0a0a0a;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--surface-2);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #303030;
+}
+
+/* Grain overlay */
+.grain::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* Section reveal initial state */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.9s cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Custom cursor (only on fine pointers) */
+@media (pointer: fine) {
+  body {
+    cursor: none;
+  }
+  a,
+  button,
+  [data-cursor] {
+    cursor: none;
+  }
+}
+
+/* Hero perspective grid */
+.hero-grid {
+  position: absolute;
+  inset: -10% -10% -10% -10%;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse at 50% 60%, black 0%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 60%, black 0%, transparent 75%);
+  animation: gridDrift 14s linear infinite;
+  pointer-events: none;
+}
+
+/* Diagonal scan line for project cards */
+.scanline::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.06) 50%, transparent 100%);
+  transform: translateY(-100%);
+  transition: transform 0.7s ease;
+}
+.scanline:hover::after {
+  transform: translateY(100%);
+}
+
+/* Corner brackets for cards */
+.brackets > .b {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: #f5f5f5;
+  border-style: solid;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.brackets:hover > .b {
+  opacity: 1;
+}
+.brackets > .b.tl {
+  top: 8px;
+  left: 8px;
+  border-width: 1px 0 0 1px;
+  transform: translate(-4px, -4px);
+}
+.brackets:hover > .b.tl {
+  transform: translate(0, 0);
+}
+.brackets > .b.tr {
+  top: 8px;
+  right: 8px;
+  border-width: 1px 1px 0 0;
+  transform: translate(4px, -4px);
+}
+.brackets:hover > .b.tr {
+  transform: translate(0, 0);
+}
+.brackets > .b.bl {
+  bottom: 8px;
+  left: 8px;
+  border-width: 0 0 1px 1px;
+  transform: translate(-4px, 4px);
+}
+.brackets:hover > .b.bl {
+  transform: translate(0, 0);
+}
+.brackets > .b.br {
+  bottom: 8px;
+  right: 8px;
+  border-width: 0 1px 1px 0;
+  transform: translate(4px, 4px);
+}
+.brackets:hover > .b.br {
+  transform: translate(0, 0);
+}
+
+/* Marquee fade */
+.marquee-mask {
+  mask-image: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
