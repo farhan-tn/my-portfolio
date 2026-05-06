@@ -44,7 +44,7 @@ export default function Contact() {
 
           <div className="mt-10 flex flex-wrap gap-3">
             <MagneticButton
-              href="mailto:farhan-jamil@hey.com"
+              href="mailto:farhanjamil259@gmail.com"
               variant="primary"
               external
             >
