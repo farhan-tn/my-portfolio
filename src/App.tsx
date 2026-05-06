@@ -13,9 +13,29 @@ import Footer from "./components/Footer";
 import { useLenis } from "./hooks/useLenis";
 import { useReveal } from "./hooks/useReveal";
 
+export const GA_TRACKING_ID = "G-L43EVZ91CL";
+
 export default function App() {
   useLenis();
   useReveal();
+
+  useEffect(() => {
+    // Load script
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`;
+    document.head.appendChild(script);
+
+    // Setup dataLayer + gtag
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function (...args: unknown[]) {
+      window.dataLayer.push(args);
+    };
+
+    // Initial pageview
+    window.gtag("js", new Date());
+    window.gtag("config", GA_TRACKING_ID);
+  }, []);
 
   useEffect(() => {
     const overlay = document.createElement("div");
